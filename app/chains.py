@@ -52,8 +52,8 @@ class Chain:
             {resume_text}
             
             ### Instruction:
-            Extract the information about the applicant from the linkedin - https://www.linkedin.com/in/mira-murati-4b39a066/.
-            Also write bullet points that how the skills in jod description matches the profile
+            Extract the information about the applicant from the resume provided and . Based on the job description and the resume, write a personalized cold email to the company. 
+            The email should highlight relevant skills from the resume and show why the applicant is a good fit for the role. 
             Make it short, professional, and tailored to the job description, along with a creative way to gains readers attention mantaining professionalism.
             But don't provide mobile number details in answer.
             ### EMAIL  (NO PREAMBLE):
