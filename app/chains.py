@@ -17,6 +17,11 @@ class Chain:
         self.llm = ChatGroq(temperature=0.5, groq_api_key=os.getenv("GROQ_API_KEY"), model_name="llama-3.3-70b-versatile")
         logger.info("Chain instance created with LLM: %s", self.llm.model_name)
 
+
+# This extract_jobs method perform following task : 
+# Scrape data from the website and
+# Extract Job relevant information 
+
     def extract_jobs(self, cleaned_text):
         logger.info("Extracting jobs from cleaned text.")
         prompt_exact = PromptTemplate.from_template(
@@ -26,7 +31,7 @@ class Chain:
             ### Instruction:
             The scraped text is from the career page of a website. Your job is to extract the job posting and 
             return them in JSON format in English containing the following keys: 'role', 'skills', and 'description'.
-            Only return the valid JSON.
+            Only return the valid JSON. Keep answer short and professional and only give one answer that is accurate. Limit anwer to 200 words.
             ### VALID JSON (NO PREAMBLE):
             """
         )
@@ -41,6 +46,38 @@ class Chain:
             raise e
         return res if isinstance(res, list) else [res]
     
+# This match_skills method perform following task : 
+# Take resume data and job description data and matches them to 
+# List matching skills and areas for improvement
+    
+    def match_skills(self, resume_text, job_data):
+        # Implement skill matching logic using llm
+        prompt_exact_match_skills = PromptTemplate.from_template(
+            """
+            ### MATCH THE SKILLS FROM RESUME AND MATCH TO JOB :
+            resume - {resume_text} 
+            job description -{job_data}
+            ### Instruction:
+            Provide a list of matching skills and areas for improvement in 2 sections and in bullet points each.
+            Add how you can contribute to the company using this skills.
+            Limit answer to 200 words only
+            Keep answer short and professional and only give one answer that is accurate.
+            ### VALID TEXT (NO PREAMBLE):
+            """)
+        matchSkills_extract = prompt_exact_match_skills | self.llm
+        try:
+            res = matchSkills_extract.invoke(input={'resume_text': resume_text,'job_data':job_data})
+            logger.info("Matched Skills successfully.")
+        except OutputParserException as e:
+            logger.error("Error during Matching Skills: %s", e)
+            raise e
+        return res if isinstance(res, list) else [res]
+    
+
+# This write_mail method perform following task : 
+# Take resume data and job description data and 
+# Writes an email
+
     def write_mail(self, job, resume_text):
         logger.info("Generating email for the job: %s", job.get('role', 'Unknown'))
         prompt_email = PromptTemplate.from_template(
