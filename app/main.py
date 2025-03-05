@@ -2,7 +2,6 @@ import streamlit as st
 from langchain_community.document_loaders import WebBaseLoader
 from chains import Chain
 from utils import clean_text
-from analysisTools import AnalysisTools
 import fitz
 from io import BytesIO
 
@@ -46,6 +45,7 @@ def create_streamlit_app(llm, clean_text):
     st.subheader("Analysis Options")
 
     button_col1, button_col2, button_col3, button_col4 = st.columns(4)
+    output_area = st.empty() # create empty area for output
 
     if resume_text and job_url:
         loader = WebBaseLoader([job_url])
@@ -65,31 +65,39 @@ def create_streamlit_app(llm, clean_text):
                     jobs = llm.extract_jobs(job_data)
                     for job in jobs:
                         email = llm.write_mail(job, clean_resume_text)
-                        st.code(email, language='markdown')
+                        # Inject CSS to force full width
+                        output_area.markdown(f"""
+                        <style>
+                        .stCode {{
+                            width: 100% !important;
+                        }}
+                        </style>
+                        {st.code(email, language='markdown')}
+                        """, unsafe_allow_html=True)
                 except Exception as e:
                     st.error(f"An error occurred: {e}")
 
         with button_col2:
             if st.button("Match your skills with profile"):
                 try:
-                    skills_match = analysis_tools.match_skills(resume_text, job_data) 
-                    st.write(skills_match)
+                    skills_match = chain.match_skills(resume_text, job_data)
+                    output_area.markdown(skills_match)
                 except Exception as e:
                     st.error(f"An error occurred: {e}")
 
         with button_col3:
             if st.button("My Strengths"):
                 try:
-                    strengths = analysis_tools.my_strengths(resume_text)
-                    st.write(strengths)
+                    strengths = chain.my_strengths(resume_text)
+                    output_area.markdown(strengths)
                 except Exception as e:
                     st.error(f"An error occurred: {e}")
 
         with button_col4:
             if st.button("Most commonly asked questions"):
                 try:
-                    questions = analysis_tools.common_questions(job_data)
-                    st.write(questions)
+                    questions = chain.common_questions(job_data)
+                    output_area.markdown(questions)
                 except Exception as e:
                     st.error(f"An error occurred: {e}")
 
@@ -102,6 +110,5 @@ def create_streamlit_app(llm, clean_text):
 
 if __name__ == "__main__":
     chain = Chain()
-    analysis_tools = AnalysisTools()
     st.set_page_config(layout="wide", page_title="Cold Email and Career Tools", page_icon="📧")
     create_streamlit_app(chain, clean_text)
