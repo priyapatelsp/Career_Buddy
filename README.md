@@ -58,3 +58,10 @@ https://en.wikipedia.org/wiki/Llama_(language_model) <br>
 https://www.youtube.com/watch?v=IMPYpUehJKE <br>
 https://www.youtube.com/watch?v=CO4E_9V6li0 <br>
 
+## ✨ Author 
+
+<i><b> Priya Patel </b></i> <br>
+Github : https://github.com/priyapatelsp <br>
+Linkedin : https://www.linkedin.com/in/priyapatelsp/ <br>
+
+
