@@ -70,7 +70,8 @@ class Chain:
             ### RESUME: {resume_text}
             ### Instruction:
             Write a personalized cold email, highlight skills, and show fit. No mobile numbers. Limit 200 words.
-            ### EMAIL:
+            Just write one email but that should be precise.
+            ### EMAIL WITH GOOD FORMAT :
             """
         )
         try:
@@ -99,18 +100,19 @@ class Chain:
             logger.error("Error analyzing strengths: %s", e)
             raise e
 
-    def common_questions(self, job_data):
+    def common_questions(self, job_data,resume_text):
         logger.info("Generating questions.")
         prompt_questions = PromptTemplate.from_template(
             """
             ### JOB: {job_data}
+            ### RESUME: {resume_text}
             ### Instruction:
-            Generate interview questions. Limit 200 words.
+            Generate interview questions for this JOB for the interviewer with RESUME . Limit 200 words.
             ### QUESTIONS:
             """
         )
         try:
-            res = self._invoke_llm(prompt_questions.invoke(input={'job_data': job_data}))
+            res = self._invoke_llm(prompt_questions.invoke(input={'job_data': job_data,'resume_text':resume_text}))
             logger.info("Questions generated successfully.")
             return res.content
         except (tenacity.RetryError, Exception) as e:

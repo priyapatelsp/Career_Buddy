@@ -3,6 +3,7 @@ from langchain_community.document_loaders import WebBaseLoader
 from chains import Chain
 from utils import clean_text
 import fitz
+import pyperclip
 from io import BytesIO
 
 def extract_text_from_pdf(uploaded_file):
@@ -13,9 +14,10 @@ def extract_text_from_pdf(uploaded_file):
     return text
 
 def create_streamlit_app(llm, clean_text):
-    st.title("📧 Cold Mail and Career Tools")
-    st.markdown("Provide applicant details and job URL for various analyses.")
-
+    title_format = f'<p style="text-align: center; font-family: Arial; color: white; font-size: 40px; font-weight: bold;"> 🏆 Career Buddy 🏆 </p>'
+    st.markdown(title_format, unsafe_allow_html=True)
+    st.markdown('<p style="text-align: center; font-family: Arial; color: white; font-size: 15px;"> <i>Streamline your cold outreach with this tool, which generates emails and offers analysis on skill relevance and common inquiries. </i></p>', unsafe_allow_html=True)
+    
     st.subheader("Applicant Details")
 
     col1, col2, col3 = st.columns(3)
@@ -65,15 +67,23 @@ def create_streamlit_app(llm, clean_text):
                     jobs = llm.extract_jobs(job_data)
                     for job in jobs:
                         email = llm.write_mail(job, clean_resume_text)
-                        # Inject CSS to force full width
-                        output_area.markdown(f"""
-                        <style>
-                        .stCode {{
-                            width: 100% !important;
-                        }}
-                        </style>
-                        {st.code(email, language='markdown')}
-                        """, unsafe_allow_html=True)
+                        st.markdown(f"""
+                            <div id="email-content">{email}</div>
+                            <button onclick="copyEmail()">Copy Email</button>
+
+                            <script>
+                            function copyEmail() {{
+                                const emailText = document.getElementById('email-content').innerText;
+                                navigator.clipboard.writeText(emailText).then(function() {{
+                                    alert('Email copied!');
+                                }}, function(err) {{
+                                    console.error('Copy failed: ', err);
+                                    alert('Copy failed. Check console.');
+                                }});
+                            }}
+                            </script>
+                            """, unsafe_allow_html=True)
+                        
                 except Exception as e:
                     st.error(f"An error occurred: {e}")
 
@@ -96,7 +106,7 @@ def create_streamlit_app(llm, clean_text):
         with button_col4:
             if st.button("Most commonly asked questions"):
                 try:
-                    questions = chain.common_questions(job_data)
+                    questions = chain.common_questions(job_data,resume_text)
                     output_area.markdown(questions)
                 except Exception as e:
                     st.error(f"An error occurred: {e}")
