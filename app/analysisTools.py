@@ -22,7 +22,7 @@ class AnalysisTools:
 
     def my_strengths(self, resume_text):
         # Implement strengths analysis logic using llm
-        prompt = f"Analyze the following resume:\n{resume_text}\nand identify the candidate's strengths."
+        prompt = f"Analyze the following resume:\n{resume_text}\n and identify the candidate's strengths."
         return self.llm.llm(prompt)
 
     def common_questions(self, job_data):

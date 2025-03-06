@@ -3,7 +3,6 @@ from langchain_community.document_loaders import WebBaseLoader
 from chains import Chain
 from utils import clean_text
 import fitz
-import pyperclip
 from io import BytesIO
 
 def extract_text_from_pdf(uploaded_file):
@@ -18,7 +17,7 @@ def create_streamlit_app(llm, clean_text):
     st.markdown(title_format, unsafe_allow_html=True)
     st.markdown('<p style="text-align: center; font-family: Arial; color: white; font-size: 15px;"> <i>Streamline your cold outreach with this tool, which generates emails and offers analysis on skill relevance and common inquiries. </i></p>', unsafe_allow_html=True)
     
-    st.subheader("Applicant Details")
+    st.subheader("✍️ Applicant Details")
 
     col1, col2, col3 = st.columns(3)
 
@@ -44,7 +43,7 @@ def create_streamlit_app(llm, clean_text):
 
     job_url = st.text_input("Job URL", value="https://jobs.nike.com/job/R-33460")
 
-    st.subheader("Analysis Options")
+    st.subheader("🪄 Analysis Options")
 
     button_col1, button_col2, button_col3, button_col4 = st.columns(4)
     output_area = st.empty() # create empty area for output
@@ -54,7 +53,7 @@ def create_streamlit_app(llm, clean_text):
         job_data = clean_text(loader.load().pop().page_content)
 
         with button_col1:
-            if st.button("Generate Email"):
+            if st.button("Generate Email  📧"):
                 applicant_text = ""
                 if resume_text:
                     applicant_text += resume_text + "\n"
@@ -67,28 +66,12 @@ def create_streamlit_app(llm, clean_text):
                     jobs = llm.extract_jobs(job_data)
                     for job in jobs:
                         email = llm.write_mail(job, clean_resume_text)
-                        st.markdown(f"""
-                            <div id="email-content">{email}</div>
-                            <button onclick="copyEmail()">Copy Email</button>
-
-                            <script>
-                            function copyEmail() {{
-                                const emailText = document.getElementById('email-content').innerText;
-                                navigator.clipboard.writeText(emailText).then(function() {{
-                                    alert('Email copied!');
-                                }}, function(err) {{
-                                    console.error('Copy failed: ', err);
-                                    alert('Copy failed. Check console.');
-                                }});
-                            }}
-                            </script>
-                            """, unsafe_allow_html=True)
-                        
+                        output_area.markdown(email)
                 except Exception as e:
                     st.error(f"An error occurred: {e}")
 
         with button_col2:
-            if st.button("Match your skills with profile"):
+            if st.button("Fit Analysis  🦾"):
                 try:
                     skills_match = chain.match_skills(resume_text, job_data)
                     output_area.markdown(skills_match)
@@ -96,7 +79,7 @@ def create_streamlit_app(llm, clean_text):
                     st.error(f"An error occurred: {e}")
 
         with button_col3:
-            if st.button("My Strengths"):
+            if st.button("Discover Resume's Strengths  💡"):
                 try:
                     strengths = chain.my_strengths(resume_text)
                     output_area.markdown(strengths)
@@ -104,7 +87,7 @@ def create_streamlit_app(llm, clean_text):
                     st.error(f"An error occurred: {e}")
 
         with button_col4:
-            if st.button("Most commonly asked questions"):
+            if st.button("Frequently Asked Questions (FAQ)  ⁉️"):
                 try:
                     questions = chain.common_questions(job_data,resume_text)
                     output_area.markdown(questions)
