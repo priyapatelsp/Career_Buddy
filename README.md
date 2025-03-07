@@ -1,7 +1,7 @@
 # ✨ CAREER BUDDY 💻 🚀 
 
 Tired of staring at a blank screen? 😩 <br>
-Let <b> Career buddy </b> be your cold email co-pilot and help you analyse your profile for job too ! <br>
+Let <b> Career buddy </b> be your cold email co-pilot and help you analyse your profile for job too! <br>
 
 ## ✨ Features That Shine ✨
 
@@ -14,7 +14,7 @@ Let <b> Career buddy </b> be your cold email co-pilot and help you analyse your 
 
 ## 🚀 Get Ready to Launch! 🚀
 
-This is a python project make sure you have the latest python version . 
+This is a python project please make sure you have the latest python version . 
 
 1.  **Install the Essentials:** 
     ```bash
