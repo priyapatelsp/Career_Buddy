@@ -50,7 +50,8 @@ This is a python project make sure you have the latest python version .
     
 ## 🖼️ See the Magic! 🖼️
 
-<img width="1364" alt="Screenshot 2025-03-06 at 3 17 55 PM" src="https://github.com/user-attachments/assets/47e9c215-157d-4099-8832-0a01840e0951" />
+
+https://github.com/user-attachments/assets/d6d2cf5d-3973-4efe-8420-16491071133c
 
 ## 🌟 References used 
 https://streamlit.io/ <br>
