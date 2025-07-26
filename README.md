@@ -4,7 +4,7 @@ Tired of staring at a blank screen? 😩 <br>
 Let <b> Career buddy </b> be your cold email co-pilot and help you analyse your profile for job too! <br>
 
 
-Link : <a href="https://careerbuddyapp.streamlit.app/"> carrer_buddy</a>
+Link : <a href="https://careerbuddyapp.streamlit.app/"> career_buddy</a>
 
 ## ✨ Features That Shine ✨
 
