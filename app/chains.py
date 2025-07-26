@@ -15,7 +15,8 @@ logger = logging.getLogger(__name__)
 
 class Chain:
     def __init__(self):
-        self.llm = ChatGroq(temperature=0.5, groq_api_key=os.getenv("GROQ_API_KEY"), model_name="llama-3.3-70b-versatile")
+        groq_api_key = st.secrets["GROQ_API_KEY"]
+        self.llm = ChatGroq(temperature=0.5, groq_api_key=groq_api_key, model_name="llama-3.3-70b-versatile")
         logger.info("Chain instance created with LLM: %s", self.llm.model_name)
 
     @tenacity.retry(stop=tenacity.stop_after_attempt(3), wait=tenacity.wait_exponential(multiplier=1, max=10))
