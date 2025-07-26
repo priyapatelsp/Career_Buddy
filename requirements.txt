@@ -6,3 +6,4 @@ python-dotenv
 fitz
 PyMuPDF
 tenacity
+beautifulsoup4
