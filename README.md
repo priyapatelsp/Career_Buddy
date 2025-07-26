@@ -3,6 +3,9 @@
 Tired of staring at a blank screen? 😩 <br>
 Let <b> Career buddy </b> be your cold email co-pilot and help you analyse your profile for job too! <br>
 
+
+Link : <a href="https://carrerbuddy.streamlit.app/"> carrer_buddy</a>
+
 ## ✨ Features That Shine ✨
 
 * **🪄 Email Generation Magic :** Simply drop in job url and your resume text, and BAM! 💥 A tailored cold email appears!
