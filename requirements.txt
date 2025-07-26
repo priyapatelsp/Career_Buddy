@@ -1,6 +1,8 @@
 streamlit
-requests
-langchain
 langchain-community
-tenacity
+langchain-groq
+langchain-core
 python-dotenv
+fitz
+PyMuPDF
+tenacity
