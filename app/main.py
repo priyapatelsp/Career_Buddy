@@ -14,9 +14,8 @@ def extract_text_from_pdf(uploaded_file):
 
 def create_streamlit_app(llm, clean_text):
     title_format = f'<p style="text-align: center; font-family: Arial; color: white; font-size: 40px; font-weight: bold;"> 🏆 Career Buddy 🏆 </p>'
-    st.markdown(title_format, unsafe_allow_html=True)
-    st.markdown('<p style="text-align: center; font-family: Arial; color: white; font-size: 15px;"> <i>Streamline your cold outreach with this tool, which generates emails and offers analysis on skill relevance and common inquiries. </i></p>', unsafe_allow_html=True)
-    
+    st.markdown("## 🏆 Career Buddy 🏆", unsafe_allow_html=True)
+    st.markdown("<i>Streamline your cold outreach with this tool...</i>", unsafe_allow_html=True)
     st.subheader("✍️ Applicant Details")
 
     col1, col2, col3 = st.columns(3)
